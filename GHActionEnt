@@ -1,0 +1,15 @@
+#Fossa GH Enterprise Action.
+
+name: FOSSA Compliance Check
+
+on:
+  create
+
+jobs:
+  fossa-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: fossas/fossa-action@v1
+        with:
+          api-key: ${{secrets.fossaApiKey}
