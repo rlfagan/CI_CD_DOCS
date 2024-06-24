@@ -28,3 +28,15 @@ fossa_scan:
   only:
     - branches
 ```
+Job Configuration
+<img width="2047" alt="image" src="https://github.com/rlfagan/CI_CD_DOCS/assets/11488913/62619a18-2932-4404-99be-f93ff6e7f1c2">
+
+FOSSA API Key
+
+<img width="2464" alt="image" src="https://github.com/rlfagan/CI_CD_DOCS/assets/11488913/c565c525-c5fe-479e-b68d-182cc74a457e">
+
+
+Eample of a Succesful Run
+
+<img width="1321" alt="image" src="https://github.com/rlfagan/CI_CD_DOCS/assets/11488913/48a842b9-dec4-4bff-a861-8911d309b4c8">
+
