@@ -14,8 +14,8 @@ Setting Environment Variables in GitLab CI
 stages:
   - build
 
-'''fossa_scan:
-  stage: build
+'''fossa_scan:'''
+  '''stage: build'''
   image: ubuntu:latest
   script:
     - apt-get update && apt-get install -y curl git bash
