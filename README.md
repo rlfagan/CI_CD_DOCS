@@ -14,7 +14,7 @@ Setting Environment Variables in GitLab CI
 stages:
   - build
 
-fossa_scan:
+'''fossa_scan:
   stage: build
   image: ubuntu:latest
   script:
@@ -25,4 +25,4 @@ fossa_scan:
     - fossa analyze
     - exit 0
   only:
-    - branches
+    - branches'''
