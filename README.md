@@ -11,11 +11,12 @@ Setting Environment Variables in GitLab CI
         Optionally, select Mask variable to hide the variable's value in job logs.
 
 # GitLab CI
+```
 stages:
   - build
 
-'''fossa_scan:'''
-  '''stage: build'''
+fossa_scan:
+  stage: build
   image: ubuntu:latest
   script:
     - apt-get update && apt-get install -y curl git bash
@@ -25,4 +26,5 @@ stages:
     - fossa analyze
     - exit 0
   only:
-    - branches'''
+    - branches
+```
