@@ -1,45 +1,24 @@
-name: SCANOSS Code Scan
+name: SCANOSS Dependency Scan Workflow
+run-name: "SCANOSS Dependency Scan Run by ${{ github.actor }}"
 
 on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual workflow runs from the Actions tab
-
-env:
-  HTTP_PROXY: ${{ secrets.HTTP_PROXY_URL }}
-  HTTPS_PROXY: ${{ secrets.HTTPS_PROXY_URL }}
+  workflow_dispatch:  # Allows manual trigger from Actions tab
 
 jobs:
-  scanoss:
+  scanoss-dependency-scan:
     runs-on: ubuntu-latest
-    container:
-      image: cgr.dev/chainguard/python:latest-dev  # Chainguard secure Python image
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install SCANOSS CLI
         run: python -m pip install scanoss
 
-      - name: Run SCANOSS Code Scan
+      - name: Run SCANOSS Dependency Scan with --trace
         id: scanoss-scan
         run: |
-          scanoss-py scan --sbom sbom.json --trace --dependencies --dep-scope prod --policies copyleft,undeclared --output results.json
-          cat results.json | jq '.'  # Output the scan results in JSON format
-
-      - name: Post PR Comment with Scan Summary
-        if: github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Required to post PR comments
-        run: |
-          REPORT=$(cat results.json | jq '. | { "Total Dependencies": .total_files, "No Issues": .no_issues, "Potential Issues": .potential_issues }')
-          COMMENT="### SCANOSS Report Summary\n\n\`\`\`json\n$REPORT\n\`\`\`"
-          gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments -f body="$COMMENT"
-
-      - name: Upload SCANOSS Report as Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: scanoss-report
-          path: results.json
+          scanoss-py dependencies ./ --trace
