@@ -31,5 +31,6 @@ jobs:
         run: |
           echo "Listing current directory contents:"
           echo "[LS]: $(ls -al)"
+          echo $PWD
 
     
