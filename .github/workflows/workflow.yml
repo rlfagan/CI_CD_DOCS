@@ -28,7 +28,7 @@ jobs:
       - name: Install scancode-toolkit
         run: |
           echo "Downloading scancode-toolkit"
-          curl -L https://github.com/nexB/scancode-toolkit/releases/download/v30.1.0/scancode-toolkit-30.1.0.zip -o scancode-toolkit.zip
+          wget https://github.com/nexB/scancode-toolkit/releases/download/v30.1.0/scancode-toolkit-30.1.0.zip -O scancode-toolkit.zip
           unzip scancode-toolkit.zip
           mv scancode-toolkit-* scancode-toolkit
           chmod +x ./scancode-toolkit/scancode
