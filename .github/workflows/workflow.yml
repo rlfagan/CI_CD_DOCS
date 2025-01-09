@@ -1,48 +1,36 @@
-name: SCANOSS Dependency Scan
+name: ScanCode Toolkit Scan
 
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
 
 jobs:
-  scanoss-dependency-scan:
+  scancode-scan:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-          echo "Updating and installing dependencies"
           sudo apt-get update
-          sudo apt-get install -y python3 python3-pip unzip
-          python3 -m pip install --upgrade pip
-          python3 -m pip install scanoss
-          echo "SCANOSS CLI installed successfully"
+          sudo apt-get install -y unzip wget
 
-      - name: Install scancode-toolkit
+      - name: Download and extract ScanCode Toolkit
         run: |
-          echo "Downloading scancode-toolkit"
           wget https://github.com/nexB/scancode-toolkit/releases/download/v30.1.0/scancode-toolkit-30.1.0.zip -O scancode-toolkit.zip
           unzip scancode-toolkit.zip
-          mv scancode-toolkit-* scancode-toolkit
-          chmod +x ./scancode-toolkit/scancode
+          chmod +x ./scancode-toolkit-30.1.0/scancode
 
-      - name: Run SCANOSS Dependency Scan
+      - name: Run ScanCode Scan (Full Dependency and License Scan)
         run: |
-          echo "Running SCANOSS dependency scan"
-          export SCANOSS_API_KEY=${{ secrets.SCANOSS_API_KEY }}  # Optional if API key is needed
-          scanoss-py dependencies ./ --trace --output scanoss-results.json --scancode ./scancode-toolkit/scancode
-          echo "SCANOSS scan completed"
+          ./scancode-toolkit-30.1.0/scancode --info --json-pp scan-results.json ./
 
-      - name: Upload SCANOSS Results
-        if: always()  # Uploads the result even if the scan fails
+      - name: Upload Scan Results
         uses: actions/upload-artifact@v3
         with:
-          name: scanoss-results
-          path: scanoss-results.json
+          name: scan-results
+          path: scan-results.json
