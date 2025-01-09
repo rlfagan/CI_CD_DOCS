@@ -1,24 +1,40 @@
-name: SCANOSS Dependency Scan Workflow
-run-name: "SCANOSS Dependency Scan Run by ${{ github.actor }}"
+name: SCANOSS Dependency Scan
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual trigger from Actions tab
 
 jobs:
   scanoss-dependency-scan:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install SCANOSS CLI
-        run: python -m pip install scanoss
-
-      - name: Run SCANOSS Dependency Scan with --trace
-        id: scanoss-scan
+      - name: Install SCANOSS and Dependencies (Script Method)
         run: |
-          scanoss-py dependencies ./ --trace
+          echo "Updating and installing dependencies"
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          python3 -m pip install --upgrade pip
+          python3 -m pip install scanoss
+          echo "SCANOSS CLI installed successfully"
+
+      - name: Run SCANOSS Dependency Scan
+        run: |
+          echo "Running SCANOSS dependency scan"
+          export SCANOSS_API_KEY=${{ secrets.SCANOSS_API_KEY }}  # Optional if API key is needed
+          scanoss-py dependencies ./ --trace --output scanoss-results.json
+          echo "SCANOSS scan completed"
+
+      - name: Upload SCANOSS Results
+        if: always()  # Uploads the result even if the scan fails
+        uses: actions/upload-artifact@v3
+        with:
+          name: scanoss-results
+          path: scanoss-results.json
