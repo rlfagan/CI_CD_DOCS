@@ -32,6 +32,6 @@ jobs:
           echo "Listing current directory contents:"
           echo "[LS]: $(ls -al)"
           echo $PWD
-          scanoss-py dep -o scan-output.json /home/runner/work/CI_CD_DOCS/CI_CD_DOCS/
+          scanoss-py scan -o scan-output.json /home/runner/work/CI_CD_DOCS/CI_CD_DOCS/
 
     
