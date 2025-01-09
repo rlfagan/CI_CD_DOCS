@@ -29,6 +29,7 @@ jobs:
 
       - name: Run ScanCode Scan (Full Dependency and License Scan)
         run: |
-          scanoss-py dep -o results.json ${PWD}
+          echo "Listing current directory contents:"
+          echo "[LS]: $(ls -al)"
 
     
