@@ -1,4 +1,4 @@
-name: ScanCode Toolkit Scan
+name: Scanoss Toolkit Scan
 
 on:
   push:
@@ -33,5 +33,11 @@ jobs:
           echo "[LS]: $(ls -al)"
           echo $PWD
           scanoss-py scan --key txnUfW0xwF0KI1U1RW5sDSBL -o scan-output.json -t /home/runner/work/CI_CD_DOCS/CI_CD_DOCS/
+      
+      - name: Upload Scan Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: scan-results
+          path: scan-output.json
 
     
