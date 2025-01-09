@@ -17,17 +17,18 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y unzip wget
+          sudo apt-get install -y wget tar python3 python3-pip
 
       - name: Download and extract ScanCode Toolkit
         run: |
-          wget https://github.com/nexB/scancode-toolkit/releases/download/v30.1.0/scancode-toolkit-30.1.0.zip -O scancode-toolkit.zip
-          unzip scancode-toolkit.zip
-          chmod +x ./scancode-toolkit-30.1.0/scancode
+          wget https://github.com/aboutcode-org/scancode-toolkit/releases/download/v32.3.1/scancode-toolkit-v32.3.1_py3.10-linux.tar.gz -O scancode-toolkit.tar.gz
+          tar -xvf scancode-toolkit.tar.gz
+          mv scancode-toolkit-* scancode-toolkit
+          chmod +x ./scancode-toolkit/scancode
 
       - name: Run ScanCode Scan (Full Dependency and License Scan)
         run: |
-          ./scancode-toolkit-30.1.0/scancode --info --json-pp scan-results.json ./
+          ./scancode-toolkit/scancode --info --json-pp scan-results.json ./
 
       - name: Upload Scan Results
         uses: actions/upload-artifact@v3
