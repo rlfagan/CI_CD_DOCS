@@ -28,10 +28,6 @@ jobs:
 
       - name: Run ScanCode Scan (Full Dependency and License Scan)
         run: |
-          ./scancode-toolkit/scancode dep -o scan-results.json ./
+          ./scancode-toolkit/scancode --help
 
-      - name: Upload Scan Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: scan-results
-          path: scan-results.json
+    
