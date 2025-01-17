@@ -11,9 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Step 2: Ensure summary.md exists and display it in the workflow summary
       - name: Display Results and Charts in Workflow Summary
         run: |
-         cat summary.md >> $GITHUB_STEP_SUMMARY
+          if [ -f summary.md ]; then
+            cat summary.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "summary.md not found." >> $GITHUB_STEP_SUMMARY
+          fi
