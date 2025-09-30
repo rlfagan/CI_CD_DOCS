@@ -1,4 +1,4 @@
-name: Scanoss Toolkit Scan
+name: Scanoss Toolkit Scans
 
 on:
   push:
